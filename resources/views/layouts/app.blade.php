@@ -15,7 +15,7 @@
         -->
         <div class="logo">
 
-            <a href="http://www.creative-tim.com" class="simple-text logo-normal">
+            <a href="{{ config('app.url', 'http://amalgatedcapital.com/newaci') }}" class="simple-text logo-normal">
 
               {{ config('app.name', 'Laravel') }}
 
