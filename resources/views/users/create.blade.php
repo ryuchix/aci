@@ -31,23 +31,23 @@
 		  	<div class="col-md-12">
 			    <div class="form-group">
 			    	<label class="bmd-label-floating">Name</label>
-			    	<input type="text" class="form-control" placeholder="Angel Locsin" name="name" autocomplete="off">
+			    	<input type="text" class="form-control" name="name" autocomplete="off">
 			    </div>
 			    <div class="form-group">
 			    	<label class="bmd-label-floating">Email Address</label>
-			    	<input type="text" class="form-control" placeholder="email@email.com" name="email"autocomplete="off">
+			    	<input type="text" class="form-control" name="email"autocomplete="off">
 			    </div>
 			    <div class="row">
 			    	<div class="col-md-6">
 					    <div class="form-group">
 					    	<label class="bmd-label-floating">Password</label>
-					    	<input type="password" class="form-control" placeholder="**********" name="password" autocomplete="off">
+					    	<input type="password" class="form-control" name="password" autocomplete="off">
 					    </div>
 					</div>
 			    	<div class="col-md-6">
 					    <div class="form-group">
 					    	<label class="bmd-label-floating">Confirm Password</label>
-					    	<input type="password" class="form-control" placeholder="**********" name="password_confirmation" autocomplete="off">
+					    	<input type="password" class="form-control" name="password_confirmation" autocomplete="off">
 					    </div>
 					</div>
 				</div>

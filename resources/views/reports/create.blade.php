@@ -21,19 +21,19 @@
 	  			<div class="col-md-6">
 				    <div class="form-group">
 				    	<label class="bmd-label-floating">Particular</label>
-				    	<input type="text" class="form-control" placeholder="Fix lightbulb" name="particular[]" required autocomplete="off">
+				    	<input type="text" class="form-control" name="particular[]" required autocomplete="off">
 				    </div>
 				</div>
 	  			<div class="col-md-2">
 				    <div class="form-group">
 				    	<label class="bmd-label-floating">Percentage</label>
-				    	<input type="number" class="form-control" placeholder="85%" name="percentage[]" autocomplete="off">
+				    	<input type="number" class="form-control" name="percentage[]" autocomplete="off">
 				    </div>
 				</div>
 	  			<div class="col-md-3">
 				    <div class="form-group">
 				    	<label class="bmd-label-floating">Remarks</label>
-				    	<input type="text" class="form-control" placeholder="Optional" name="remarks[]" autocomplete="off">
+				    	<input type="text" class="form-control" name="remarks[]" autocomplete="off">
 				    </div>
 				</div>
 	  			<div class="col-md-1">

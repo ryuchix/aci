@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Toast;
+use App\Notification;
 
 class HomeController extends Controller
 {
@@ -36,5 +38,25 @@ class HomeController extends Controller
         Auth::logout();
 
         return redirect('/login');
+    }
+
+    public function clear()
+    {
+        $notifications = Notification::all();
+
+        foreach ($notifications as $notification) {
+           $notification->delete();
+        }
+    }
+
+    public function read(Request $request)
+    {
+        $id = $request->id;
+
+        $notification = Notification::find($id);
+
+        $notification->read = true;
+
+        $notification->save();
     }
 }

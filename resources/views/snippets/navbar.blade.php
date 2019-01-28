@@ -1,3 +1,6 @@
+  @php
+    $notifications = \App\Notification::orderBy('created_at', 'desc')->get();
+  @endphp
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <div class="navbar-wrapper">
@@ -14,17 +17,27 @@
               <li class="nav-item dropdown">
                 <a class="nav-link" href="javscript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="material-icons">notifications</i>
-                  <span class="notification">5</span>
+                  @if(count($notifications) != 0)
+                    <span class="notification notif-count">{{ count($notifications) == 0 ? "" : count($notifications) }}</span>
+                  @endif
+
                   <p class="d-lg-none d-md-block">
-                    Some Actions
+                    Notifications
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="javascript:void(0)">Mike John responded to your email</a>
-                  <a class="dropdown-item" href="javascript:void(0)">You have 5 new tasks</a>
-                  <a class="dropdown-item" href="javascript:void(0)">You're now friend with Andrew</a>
-                  <a class="dropdown-item" href="javascript:void(0)">Another Notification</a>
-                  <a class="dropdown-item" href="javascript:void(0)">Another One</a>
+                  <div class="notif">
+                    @if(count($notifications) != 0)
+                    @foreach ($notifications as $notification)
+                      <a class="dropdown-item show-report" data-id="{{ $notification->id }}" href="{{ url('dashboard/reports/').'/'.$notification->report_id }}" style="{{ $notification->read == true ? "color: #ccc" : "" }}">
+                        <small style="margin-right: 10px;">{{ \Carbon\Carbon::parse($notification->created_at)->format('M d') }} </small> {{ $notification->message }}</a>
+                    @endforeach
+                    @else
+                    <p style="text-align: center; margin: 10px" data-empty="1">No notification</p>
+                    @endif
+                  </div>
+                  <hr>
+                  <div style="text-align: center; margin-top: -10px;"><button class="btn btn-primary clear-notification" style="background-color: #ef8706 !important">Clear</button></div>
                 </div>
               </li>
               <li class="nav-item dropdown">

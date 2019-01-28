@@ -33,7 +33,13 @@ Route::group(['middleware' => ['auth']], function() {
 
 	Route::resource('dashboard/reports', 'ReportController');
 
+	Route::get('/reports/download/{id}', 'ReportController@download');
+
 	Route::get('/logout', 'HomeController@logout')->name('logout');
+
+	Route::post('/clear-notifications', 'HomeController@clear');
+
+	Route::post('/mark-as-read', 'HomeController@read');
 
 });
 

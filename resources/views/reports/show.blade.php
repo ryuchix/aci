@@ -9,6 +9,7 @@
 	<div class="card card-plain">
     	<div class="card-header card-header-primary">
       		<h4 class="card-title mt-0">{{ $user->name }}</h4>
+      		<h5 class="card-title mt-0"><em>{{ $user->department['name'] }}</em></h5>
 	      	<p class="card-category">{{ $date }}</p>
 	    </div>
 	    <div class="card-body">

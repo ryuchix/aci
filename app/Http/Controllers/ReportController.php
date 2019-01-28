@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Particular;
 use App\User;
+use App\Notification;
 use Toast;
+use App;
+use PDF;
 
 class ReportController extends Controller
 {
@@ -71,6 +74,14 @@ class ReportController extends Controller
             $particular->save();
         }
 
+        if(auth()->user()->role == 'User') {
+            $notification = new Notification;
+            $notification->report_id = $report->id;
+            $notification->user_id = auth()->user()->id;
+            $notification->message = auth()->user()->name . ' submitted a report.';
+            $notification->save();
+        }
+
         Toast::success('New report added', 'Success');
 
         return redirect()->back();
@@ -84,7 +95,7 @@ class ReportController extends Controller
      */
     public function show(Report $report)
     {
-        $user = User::find($report->user_id);
+        $user = User::where('id', $report->user_id)->with('department')->first();
 
         $date = Carbon::parse($report->date_posted)->format('F d, Y');
 
@@ -141,5 +152,29 @@ class ReportController extends Controller
         Toast::success('Report deleted', 'Success');
 
         return redirect('dashboard/reports');
+    }
+
+    public function download($id)
+    {
+        $report = Report::findOrFail($id);
+
+        $particulars = Particular::where('report_id', $report->id)->get();
+
+        $user = User::where('id', $report->user_id)->with('department')->first();
+
+        $date = Carbon::parse($report->date_posted)->format('F d, Y');
+
+        $pdf = App::make('dompdf.wrapper');
+
+        $data = [
+            'report' => $report, 
+            'particulars' => $particulars, 
+            'user' => $user, 
+            'date' => $date
+        ];
+
+        $pdf = PDF::loadView('reports.download', $data);
+
+        return $pdf->download('report.pdf');
     }
 }

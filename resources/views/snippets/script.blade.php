@@ -11,7 +11,7 @@
 <!--  Notifications Plugin    -->
 <script src="{{ asset('js/plugins/bootstrap-notify.js') }}"></script>
 <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-<!-- <script src="{{ asset('js/material-dashboard.js?v=2.1.0') }}"></script> -->
+<script src="{{ asset('js/material-dashboard.js?v=2.1.0') }}"></script>
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
 <script src="{{ asset('demo/demo.js') }}"></script>
 
@@ -23,6 +23,50 @@
 <script>
 $(document).ready(function() {
   $().ready(function() {
+
+    $('.clear-notification').on('click', function(e){
+      
+      $.ajax({
+          /* the route pointing to the post function */
+          url: '{{ url("clear-notifications") }}',
+          data: { _token: '{{csrf_token()}}' },
+          type: 'POST',
+          /* send the csrf-token and the input to the controller */
+          dataType: 'JSON',
+          /* remind that 'data' is the response of the AjaxController */
+          success: function (data) { 
+             
+          }
+      }); 
+
+      var clear = $(this).parent().siblings().children('.show-report').remove();
+
+      if(clear) {
+        var empty =  $(this).parent().siblings().find('p');
+        $(this).parent().siblings().children('p').remove();
+        $('.notif').append('<p style="text-align: center; margin: 10px">No notification</p>');
+        $('.notif-count').remove();
+      }
+
+    });
+
+    $('.show-report').on('click', function(e){
+
+      var id = $(this).data('id');
+
+      $.ajax({
+          /* the route pointing to the post function */
+          url: '{{ url("mark-as-read") }}',
+          data: { id: id, _token: '{{csrf_token()}}' },
+          type: 'POST',
+          /* send the csrf-token and the input to the controller */
+          dataType: 'JSON',
+          /* remind that 'data' is the response of the AjaxController */
+          success: function (data) { 
+            $(this).prop('style', 'color: #ccc');
+          }
+      }); 
+    });
 
   // To style all selects
   $('select').selectpicker();
