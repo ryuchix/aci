@@ -14,6 +14,7 @@
           </button>
           <div class="collapse navbar-collapse justify-content-end">
             <ul class="navbar-nav">
+              @if(auth()->user()->role == "Admin")
               <li class="nav-item dropdown">
                 <a class="nav-link" href="javscript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="material-icons">notifications</i>
@@ -40,6 +41,7 @@
                   <div style="text-align: center; margin-top: -10px;"><button class="btn btn-primary clear-notification" style="background-color: #ef8706 !important">Clear</button></div>
                 </div>
               </li>
+              @endif
               <li class="nav-item dropdown">
                 <a class="nav-link" href="javascript:void(0)" id="navbarDropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="material-icons">person</i>
