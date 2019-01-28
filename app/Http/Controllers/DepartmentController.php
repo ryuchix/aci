@@ -16,9 +16,13 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $departments = Department::all();
+        if(auth()->user()->role == 'Admin') {
+            $departments = Department::all();
 
-        return view('departments.index', compact('departments'));
+            return view('departments.index', compact('departments'));
+        } else {
+            return redirect()->back();
+        }
     }
 
     /**
@@ -28,7 +32,11 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        return view('departments.create');
+        if(auth()->user()->role == 'Admin') {
+            return view('departments.create');
+        } else {
+            return redirect()->back();
+        }
     }
 
     /**
@@ -67,7 +75,11 @@ class DepartmentController extends Controller
      */
     public function edit(Department $department)
     {
-        return view('departments.update', compact('department'));
+        if(auth()->user()->role == 'Admin') {
+            return view('departments.update', compact('department'));
+        } else {
+            return redirect()->back();
+        }
     }
 
     /**
@@ -96,10 +108,14 @@ class DepartmentController extends Controller
      */
     public function destroy(Department $department)
     {
-        $department->delete();
+        if(auth()->user()->role == 'Admin') {
+            $department->delete();
 
-        Toast::success('Department deleted', 'Success');
+            Toast::success('Department deleted', 'Success');
 
-        return redirect('dashboard/departments');
+            return redirect('dashboard/departments');
+        } else {
+            return redirect()->back();
+        }
     }
 }

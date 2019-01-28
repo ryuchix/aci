@@ -6,6 +6,7 @@
 	      		<p>Dashboard</p>
     		</a>
   		</li>
+      @if(auth()->user()->role == "Admin")
   		<li class="nav-item {{ request()->is('dashboard/departments*') ? 'active' : '' }}">
     		<a class="nav-link" href="{{ url('dashboard/departments') }}">
 	      		<i class="material-icons">domain</i>
@@ -18,6 +19,7 @@
             <p>Users</p>
         </a>
       </li>
+      @endif
       <li class="nav-item {{ request()->is('dashboard/reports*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ url('dashboard/reports') }}">
             <i class="material-icons">note</i>

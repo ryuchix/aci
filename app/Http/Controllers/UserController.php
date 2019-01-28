@@ -19,9 +19,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('department')->orderBy('role', 'asc')->get();
+        if(auth()->user()->role == 'Admin') {
+            $users = User::with('department')->orderBy('role', 'asc')->get();
 
-        return view('users.index', compact('users'));
+            return view('users.index', compact('users'));
+        } else {
+            return redirect()->back();
+        }
     }
 
     /**
@@ -31,9 +35,13 @@ class UserController extends Controller
      */
     public function create()
     {
-        $departments = Department::all();
+        if(auth()->user()->role == 'Admin') {
+            $departments = Department::all();
 
-        return view('users.create', compact('departments'));
+            return view('users.create', compact('departments'));
+        } else {
+            return redirect()->back();
+        }
     }
 
     /**
@@ -76,9 +84,13 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $departments = Department::all();
+        if(auth()->user()->role == 'Admin') {
+            $departments = Department::all();
 
-        return view('users.update', compact('user', 'departments'));
+            return view('users.update', compact('user', 'departments'));
+        } else {
+            return redirect()->back();
+        }
     }
 
     /**
@@ -111,11 +123,15 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->delete();
+        if(auth()->user()->role == 'Admin') {
+            $user->delete();
 
-        Toast::success('User deleted', 'Success');
+            Toast::success('User deleted', 'Success');
 
-        return redirect('dashboard/users');
+            return redirect('dashboard/users');
+        } else {
+            return redirect()->back();
+        }
     }
 
 
@@ -142,15 +158,19 @@ class UserController extends Controller
     }
 
     public function updatePassword(ResetPasswordRequest $request)
-    {        
-        $user = User::find($request->id);
+    {  
+        if(auth()->user()->role == 'Admin') {     
+            $user = User::find($request->id);
 
-        $user->password = bcrypt($request->password);
+            $user->password = bcrypt($request->password);
 
-        $user->save();
+            $user->save();
 
-        Toast::success('Password Resetted', 'Success');
+            Toast::success('Password Resetted', 'Success');
 
-        return redirect('dashboard/users');
+            return redirect('dashboard/users');
+        } else {
+            return redirect()->back();
+        }
     }
 }

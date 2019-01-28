@@ -16,6 +16,7 @@
 	       		<table class="table table-hover">
 		          	<thead class="">
 			            <th>#</th>
+			            <th>Submitted by</th>
 			            <th>Average</th>
 			            <th>Action</th>
 					</thead>
@@ -24,6 +25,7 @@
 		          		@foreach($reports as $report)
 			            <tr>
 			              <td>{{ $count }}</td>
+			              <td>{{ $report->user['name'] }}</td>
 			              <td>{{ $report->average }}%</td>
 			              <td>
 							  <div class="timeline-footer">

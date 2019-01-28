@@ -48,8 +48,6 @@
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownUser">
-                  <a class="dropdown-item" href="javascript:void(0)">Profile</a>
-                  <a class="dropdown-item" href="javascript:void(0)">Change Password</a>
                   <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
                       Logout
                   </a>    

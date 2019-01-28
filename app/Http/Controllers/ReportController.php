@@ -21,9 +21,15 @@ class ReportController extends Controller
      */
     public function index()
     {
-        $reports = Report::all();
+        if(auth()->user()->role == 'Admin') {
+            $reports = Report::with('user')->get();
 
-        return view('reports.index', compact('reports'));
+            return view('reports.index', compact('reports'));
+        } else {
+            $reports = Report::where('user_id', auth()->user()->id)->with('user')->get();
+
+            return view('reports.index', compact('reports'));
+        }
     }
 
     /**
@@ -156,25 +162,48 @@ class ReportController extends Controller
 
     public function download($id)
     {
-        $report = Report::findOrFail($id);
+        if(auth()->user()->role == 'Admin') {
+            $report = Report::findOrFail($id);
 
-        $particulars = Particular::where('report_id', $report->id)->get();
+            $particulars = Particular::where('report_id', $report->id)->get();
 
-        $user = User::where('id', $report->user_id)->with('department')->first();
+            $user = User::where('id', $report->user_id)->with('department')->first();
 
-        $date = Carbon::parse($report->date_posted)->format('F d, Y');
+            $date = Carbon::parse($report->date_posted)->format('F d, Y');
 
-        $pdf = App::make('dompdf.wrapper');
+            $pdf = App::make('dompdf.wrapper');
 
-        $data = [
-            'report' => $report, 
-            'particulars' => $particulars, 
-            'user' => $user, 
-            'date' => $date
-        ];
+            $data = [
+                'report' => $report, 
+                'particulars' => $particulars, 
+                'user' => $user, 
+                'date' => $date
+            ];
 
-        $pdf = PDF::loadView('reports.download', $data);
+            $pdf = PDF::loadView('reports.download', $data);
 
-        return $pdf->download('report.pdf');
+            return $pdf->download('report.pdf');
+        } else {
+            $report = Report::where('id', $id)->where('user_id', auth()->user()->id)->first();
+
+            $particulars = Particular::where('report_id', $report->id)->get();
+
+            $user = User::where('id', $report->user_id)->with('department')->first();
+
+            $date = Carbon::parse($report->date_posted)->format('F d, Y');
+
+            $pdf = App::make('dompdf.wrapper');
+
+            $data = [
+                'report' => $report, 
+                'particulars' => $particulars, 
+                'user' => $user, 
+                'date' => $date
+            ];
+
+            $pdf = PDF::loadView('reports.download', $data);
+
+            return $pdf->download('report.pdf');
+        }
     }
 }

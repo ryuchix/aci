@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Toast;
 use App\Notification;
+use App\User;
+use Carbon\Carbon;
+use App\Report;
+use App\Department;
 
 class HomeController extends Controller
 {
@@ -30,7 +34,10 @@ class HomeController extends Controller
 
     public function dashboard()
     {
-        return view('dashboard');
+        $users = User::all();
+        $reports = Report::where('created_at', '>=', Carbon::today())->with(['user', 'department'])->get();
+        $departments = Department::all();
+        return view('dashboard', compact('users', 'reports', 'departments'));
     }
 
     public function logout()
